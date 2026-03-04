@@ -26,6 +26,7 @@ export default function FormInput({ id, label, type, col }) {
                     text-gray-500 bg-white px-1
                     peer-focus:top-0 peer-focus:-translate-y-2.5 peer-focus:text-blue-500 peer-focus:text-xs
                     peer-not-placeholder-shown:top-0 peer-not-placeholder-shown:-translate-y-2.5 peer-not-placeholder-shown:text-xs
+                    overflow-x-hidden text-nowrap
             ">
                 {label}
             </label>

@@ -6,13 +6,26 @@ import FormAuto from "../components/crear-anexo/FormAuto";
 import FormManual from "../components/crear-anexo/FormManual";
 import { MODES } from "../components/crear-anexo/data-schema";
 
+import { AnexoServices } from "../services/anexoServices";
+
 export default function CrearAnexo() {
     const methods = useForm(); //incializo una variable con los metodos de useForm
 
     const [mode, setMode] = useState(MODES.M); //inicializo un estado para controlar la pestaña de datos manuales y datos auto.
 
-    const onSubmit = (data) => {
-        console.log("Data para el endpoint:", data);
+    const [isDownloading, setIsDownloading] = useState(false); //inicializo un estado para desactivar el boton de generar anexo cuando se esta procesando uno
+
+    const onSubmit = async (data) => {
+        try {
+            setIsDownloading(true);
+            await AnexoServices.createAnexo(data);
+            console.log("Documento generado exitosamente");
+        } catch (error) {
+            console.error("Error al generar el documento:", error);
+            alert("Hubo un error al generar el archivo Word.");
+        } finally {
+            setIsDownloading(false);
+        }
     };
 
     return (
@@ -22,6 +35,7 @@ export default function CrearAnexo() {
                     onSubmit={methods.handleSubmit(onSubmit)}
                     className="shadow-2xl h-9/10 w-full flex rounded-2xl">
                     <div className=" w-5/10 bg-white p-4 rounded-l-2xl flex flex-col h-full">
+                    
                         <div className="bg-gray-100 py-4 px-4 rounded-xl shrink-0">
                             <span className="font-bold text-blue-500 select-none">
                                 1. SELECCIONA UNA PLANTILLA
@@ -43,7 +57,7 @@ export default function CrearAnexo() {
                         </div>
 
                         {/* Selector de form */}
-                        <div className="w-full flex justify-end mt-4 mb-2 shrink-0">
+                        {/* <div className="w-full flex justify-end mt-4 mb-2 shrink-0">
                             <button
                                 type="button"
                                 onClick={() => setMode(MODES.M)}
@@ -53,16 +67,17 @@ export default function CrearAnexo() {
                             <button
                                 type="button"
                                 onClick={() => setMode(MODES.A)}
+                                disabled={isDownloading}
                                 className={`rounded-r-3xl px-6 py-2 font-medium transition-colors cursor-pointer ${mode === MODES.A ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800 hover:bg-gray-300"} `}>
                                 Automático
                             </button>
-                        </div>
+                        </div> */}
                         {/* /Selector de form */}
 
                         {/* Outlet de plantilla */}
                         <div
-                            className={`flex-1 max-h-160 ${mode === MODES.M ? "overflow-y-scroll" : "overflow-hidden"}`}>
-                            {mode === MODES.M ? <FormManual /> : <FormAuto />}
+                            className={`flex-1 h-auto overflow-y-scroll `}>
+                            <FormManual/>
                         </div>
                         {/* /Outlet de plantilla */}
                     </div>

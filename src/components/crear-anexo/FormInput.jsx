@@ -11,7 +11,7 @@ export default function FormInput({ id, label, type, col }) {
                 placeholder=" "
                 className="
       peer block w-full rounded-md bg-white 
-      px-3 py-3 text-base text-black 
+      px-3 py-2.5 text-base text-black 
       outline-1 -outline-offset-1 outline-gray-300 
       placeholder-transparent
       focus:outline-2 focus:-outline-offset-2 
@@ -26,7 +26,7 @@ export default function FormInput({ id, label, type, col }) {
                     text-gray-500 bg-white px-1
                     peer-focus:top-0 peer-focus:-translate-y-2.5 peer-focus:text-blue-500 peer-focus:text-xs
                     peer-not-placeholder-shown:top-0 peer-not-placeholder-shown:-translate-y-2.5 peer-not-placeholder-shown:text-xs
-                    overflow-x-hidden text-nowrap
+                    overflow-x-hidden text-nowrap text-sm
             ">
                 {label}
             </label>
